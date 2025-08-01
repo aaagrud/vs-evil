@@ -53,6 +53,7 @@ async function activate(context) {
         if (!apiKey || sharedState.isModifyingProgrammatically) {
             return;
         }
+        // ... (rest of the function is unchanged)
         const originalCode = document.getText();
         if (!originalCode.trim()) {
             return;
@@ -86,8 +87,9 @@ async function activate(context) {
     const INACTIVITY_LIMIT = 12 * 1000; // 12 seconds
 
     async function onBored() {
+        // ... (rest of the function is unchanged)
         const editor = vscode.window.activeTextEditor;
-        if (!editor || sharedState.isModifyingProgrammatically) return;
+        if (!editor || sharedState.isModifyingProgrammatically) return; // Added check for safety
         const document = editor.document;
         const originalCode = document.getText();
         if (!originalCode.trim()) return;
