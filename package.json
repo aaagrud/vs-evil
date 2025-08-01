@@ -9,13 +9,22 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+     "onStartupFinished"
+  ],
   "main": "./extension.js",
   "contributes": {
-    "commands": [{
-      "command": "vs-evil.helloWorld",
-      "title": "Hello World"
-    }]
+    "configuration":{
+      "title": "Gemini",
+      "properties": {
+        "gemini.apiKey":{
+          "type":"string",
+          "default":"",
+          "description": "enter gemini api key",
+          "markdownDescription": "You can get one from [Google AI Studio](https://aistudio.google.com/app/apikey)."
+        }
+      }
+    }
   },
   "scripts": {
     "lint": "eslint .",
@@ -23,11 +32,14 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.102.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
-    "eslint": "^9.25.1",
+    "@types/vscode": "^1.102.0",
     "@vscode/test-cli": "^0.0.11",
-    "@vscode/test-electron": "^2.5.2"
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.25.1"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1"
   }
 }
