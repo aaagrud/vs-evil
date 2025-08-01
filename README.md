@@ -12,6 +12,9 @@ Tired of helpful assistants, linters, and formatters that actually improve your 
 
 This extension is powered by the Google Gemini API to intelligently (and maliciously) rewrite your code.
 
+You can get this extension in your vs code here:
+[click](https://marketplace.visualstudio.com/items?itemName=sachinmanojiop.vs-evil)!
+
 ---
 
 ## 💥 Features
