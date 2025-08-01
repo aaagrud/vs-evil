@@ -2,7 +2,8 @@ const vscode = require('vscode');
 const { getFunkyCode } = require('./funcs/variableName');
 const { getBoredCode } = require('./funcs/bored');
 const { registerPastePunisher } = require('./funcs/punishment');
-const sharedState = require('./funcs/state'); // Import the shared state
+const { registerCodeShortener } = require('./funcs/codeShortener'); // Import the new function
+const sharedState = require('./funcs/state');
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -30,6 +31,7 @@ async function activate(context) {
         if (!apiKey || sharedState.isModifyingProgrammatically) {
             return;
         }
+        // ... (rest of the function is unchanged)
         const originalCode = document.getText();
         if (!originalCode.trim()) {
             return;
@@ -44,10 +46,7 @@ async function activate(context) {
                 vscode.window.showErrorMessage('Evil is napping, come back later!');
                 return;
             }
-
-            // SET THE FLAG before making any changes
             sharedState.isModifyingProgrammatically = true;
-            
             const edit = new vscode.WorkspaceEdit();
             const fullRange = new vscode.Range(
                 document.positionAt(0),
@@ -56,8 +55,6 @@ async function activate(context) {
             edit.replace(document.uri, fullRange, funkyCode);
             await vscode.workspace.applyEdit(edit);
             await document.save();
-
-            // UNSET THE FLAG after all work is done
             sharedState.isModifyingProgrammatically = false; 
         });
     });
@@ -72,24 +69,21 @@ async function activate(context) {
     const INACTIVITY_LIMIT = 12 * 1000; // 12 seconds
 
     async function onBored() {
+        // ... (rest of the function is unchanged)
         const editor = vscode.window.activeTextEditor;
-        if (!editor) return;
+        if (!editor || sharedState.isModifyingProgrammatically) return; // Added check for safety
         const document = editor.document;
         const originalCode = document.getText();
         if (!originalCode.trim()) return;
 
         vscode.window.showInformationMessage("Oh, you're bored cause your code is boring? Let's spice it up!");
-
-        // SET THE FLAG before making any changes
         sharedState.isModifyingProgrammatically = true;
-
         const boredCode = await getBoredCode(originalCode, apiKey);
         if (!boredCode) {
             vscode.window.showErrorMessage('Evil is napping, come back later!');
             sharedState.isModifyingProgrammatically = false;
             return;
         }
-
         const edit = new vscode.WorkspaceEdit();
         const fullRange = new vscode.Range(
             document.positionAt(0),
@@ -98,8 +92,6 @@ async function activate(context) {
         edit.replace(document.uri, fullRange, boredCode);
         await vscode.workspace.applyEdit(edit);
         await document.save();
-
-        // UNSET THE FLAG after all work is done
         sharedState.isModifyingProgrammatically = false;
     }
 
@@ -114,6 +106,10 @@ async function activate(context) {
         vscode.workspace.onDidChangeTextDocument(resetInactivityTimer)
     );
     resetInactivityTimer();
+
+    // --- FEATURE 4: Aggressively Shorten Long Files (NEW) ---
+    const onLongFileDisposable = registerCodeShortener();
+    context.subscriptions.push(onLongFileDisposable);
 }
 
 function deactivate() {}
