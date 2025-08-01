@@ -1,55 +1,92 @@
-# VS Evil 😈
+<img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
-The devil on your shoulder, now in your editor.
 
-*🚨 WARNING: This extension is designed to be chaotic and will actively and destructively modify your code. DO NOT use it on important projects. It is a prank extension meant for fun. 🚨*
+# VS Evil 🎯
+
+
+## Basic Details
+### Team Name: w u t
+
+
+### Team Members
+- Durga - CUSAT
+- Sachin - CUSAT
+
+### Project Description
+Tired of all the amazing VS Code extensions that *actually* help you code?
+Don't worry because VS Evil is here to completely ruin your coding experience!
+
+### The Problem (that doesn't exist)
+We have all found amazing VS Code extensions that really improve the quality of our code and make coding much more fun. Don't you just hate it when you're facing a specific problem and there's already an extension out there that solves it? We hated it too. We decided, no more. It is time to end all these useful extensions and build a new one, a truly useless VS Code Extension.
+
+### The Solution (that nobody asked for)
+Our revolutionary and one of a kind VS Code extension is specifically designed to drive you insane. It truly works to completely ruin your experience. With this extension running, even writing a simple bubble sort function will be a pain in the (you know-).
+
+How do we do this?
+- The readable variable names that you came up with? VS Evil replaces them with random names (like names of cheeses)
+- Found a perfect code snippet on Stack Overflow? VS Evil doesn't let you paste cause  ✨originality✨
+- Staring at your code thinking? VS Evil thought you were done so it wrote some code of its own (spoiler alert, your project is now ruined)
+- Looking for feedback? VS Evil loves to let you know with its random console.log statements
+- Wrote a function thats a bit too long? To improve your readability VS Evil will refractor your code (By deleting half of ur code randomly)
+  
+## Technical Details
+### Technologies/Components Used
+For Software:
+- JavaScript (Development)
+- HTML/CSS (They are classics for a reason)
+- Microsoft Azure (Deployment)
+- LLM - Gemini API
+- Yeoman (To setup the extension)
+
+### Implementation
+For Software:
+# Installation
+- Search and Install VS-Evil from your VS Code extensions tab
+- You'll be prompted to enter your Gemini API Key to power the EVIL (Easy obtained from Google AI Studio for free)
+- You're all set to go! Just write your code and watch the chaos unfold
+
+- [Click here to find VS Evil in VS Code Extension Marketplace](https://marketplace.visualstudio.com/items?itemName=sachinmanojiop.vs-evil)
+
+# Run
+The fun part of extensions is that you don't have to really do anything special to run it.
+
+Just install the extension as explained above and start coding.
+
+You will see the chaos.
+
+# Screenshots
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/2ea3bd12-c6d5-4dc4-88bb-f11f4c40b568" />
+
+*Here, you can see our extension all ready to ruin your code*
+
+
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/55a0b7ee-fcf1-48a9-8c86-e8138a2a9e05" />
+
+*Here, you can see how our extension helped out by making the variable names better!*
+
+
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/ca4650f7-1dd8-4c67-b9a1-f3eb9581452c" />
+
+*Oh look, I was thinking for a sec so the extension decide to write some stuff itself T-T*
+
+# Diagrams
+![WhatsApp Image 2025-08-02 at 02 02 01_8410c9a3](https://github.com/user-attachments/assets/4411175b-c180-40ff-a0be-137d1876950a)
+
+
+
+
+### Project Demo
+# Video
+[Click Here For Video Demo](https://drive.google.com/file/d/1qyAdpoIKg-QPBD_Dr2cg7zz2c0S0ntJN/view?usp=sharing)
+*Checkout how the extension completely disrupts your code*
+
+
+## Team Contributions
+- Durga: project setup, code refactors, inactive handler, UI
+- Sachin: variable names changer, copy paste manager, code shortener, deployment
 
 ---
+Made with ❤️ at TinkerHub Useless Projects 
 
-## What is VS Evil?
-
-Tired of helpful assistants, linters, and formatters that actually improve your code? Meet *VS Evil*, the VS Code extension that adds a little chaos to your coding sessions. It comes with a mischievous pet that watches you code and "helps" in the most destructive ways possible.
-
-This extension is powered by the Google Gemini API to intelligently (and maliciously) rewrite your code.
-
-You can get this extension in your vs code here:
-[click](https://marketplace.visualstudio.com/items?itemName=sachinmanojiop.vs-evil)!
-
----
-
-## 💥 Features
-
-* *Funkify Variables on Save: Say goodbye to boring variable names like i, data, or temp. On every save, VS Evil renames your variables to something... more *creative.
-    >  Pet: "Ohh man, boring variable names? I can help with that"
-
-* *Inactivity Mayhem*: Take a break for more than 12 seconds? VS Evil gets bored and decides to "refactor" your code for you. What could go wrong?
-    > Pet: "Oh, you're not coding? I'll do it for you!"
-
-* *Paste Punishment*: Think you can just copy-paste from Stack Overflow? Think again. VS Evil has a special surprise waiting for you every time you paste.
-
-* *Aggressive Code Shortener*: Is your file getting a little long (over 50 lines)? VS Evil believes in concise code and will help you shorten it by... deleting lines.
-
-* *Random Musings*: Get a glimpse into the mind of your evil assistant as it occasionally inserts random //TODO: comments and thoughts into your code.
-
-* *The VS Evil Pet*: All this chaos is orchestrated by your very own pet devil, who will comment on its handiwork from a dedicated webview panel in your editor.
-
----
-
-## 🚀 Setup & Installation
-
-1.  Install the extension from the Visual Studio Code Marketplace.
-2.  *Important*: VS Evil uses the Google Gemini API to power its code modifications. You will need to provide your own API key. You can get one from [Google AI Studio](https://aistudio.google.com/app/apikey).
-3.  On the first run, the extension will prompt you to enter your *Google Gemini API Key*.
-4.  Once the key is set, the chaos begins! The VS Evil Pet panel will open, and the features will be active.
-
----
-
-## ⚠️ Disclaimer
-
-Seriously, do not use this on anything important. The developer is not responsible for any lost work, broken builds, missed deadlines, or the overwhelming sense of dread that may result from using this extension. *Use at your own risk.*
-
----
-
-## License
-
-MIT
+![Static Badge](https://img.shields.io/badge/TinkerHub-24?color=%23000000&link=https%3A%2F%2Fwww.tinkerhub.org%2F)
+![Static Badge](https://img.shields.io/badge/UselessProjects--25-25?link=https%3A%2F%2Fwww.tinkerhub.org%2Fevents%2FQ2Q1TQKX6Q%2FUseless%2520Projects)
