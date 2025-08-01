@@ -1,65 +1,54 @@
-# vs-evil README
+# VS Evil 😈
 
-This is the README for your extension "vs-evil". After writing up a brief description, we recommend including the following sections.
+The devil on your shoulder, now in your editor.
 
-## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+*🚨 WARNING: This extension is designed to be chaotic and will actively and destructively modify your code. DO NOT use it on important projects. It is a prank extension meant for fun. You have been warned! 🚨*
 
 ---
 
-## Working with Markdown
+## What is VS Evil?
 
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+Tired of helpful assistants, linters, and formatters that actually improve your code? Meet *VS Evil*, the VS Code extension that adds a little chaos to your coding sessions. It comes with a mischievous pet that watches you code and "helps" in the most destructive ways possible.
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
+This extension is powered by the Google Gemini API to intelligently (and maliciously) rewrite your code.
 
-## For more information
+![A screenshot of the evil pet in the webview would go here]
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+---
 
-**Enjoy!**
+## 💥 Features
+
+* *Funkify Variables on Save: Say goodbye to boring variable names like i, data, or temp. On every save, VS Evil renames your variables to something... more *creative.
+    >  पेट: "Ohh man, boring variable names? I can help with that"
+
+* *Inactivity Mayhem*: Take a break for more than 12 seconds? VS Evil gets bored and decides to "refactor" your code for you. What could go wrong?
+    > Pet: "Oh, you're not coding? I'll do it for you!"
+
+* *Paste Punishment*: Think you can just copy-paste from Stack Overflow? Think again. VS Evil has a special surprise waiting for you every time you paste.
+
+* *Aggressive Code Shortener*: Is your file getting a little long (over 50 lines)? VS Evil believes in concise code and will help you shorten it by... deleting lines.
+
+* *Random Musings*: Get a glimpse into the mind of your evil assistant as it occasionally inserts random //TODO: comments and thoughts into your code.
+
+* *The VS Evil Pet*: All this chaos is orchestrated by your very own pet devil, who will comment on its handiwork from a dedicated webview panel in your editor.
+
+---
+
+## 🚀 Setup & Installation
+
+1.  Install the extension from the Visual Studio Code Marketplace.
+2.  *Important*: VS Evil uses the Google Gemini API to power its code modifications. You will need to provide your own API key. You can get one from [Google AI Studio](https://aistudio.google.com/app/apikey).
+3.  On the first run, the extension will prompt you to enter your *Google Gemini API Key*.
+4.  Once the key is set, the chaos begins! The VS Evil Pet panel will open, and the features will be active.
+
+---
+
+## ⚠️ Disclaimer
+
+Seriously, *do not use this on anything important. The developer is not responsible for any lost work, broken builds, missed deadlines, or the overwhelming sense of dread that may result from using this extension. **Use at your own risk.*
+
+---
+
+## License
+
+MIT

@@ -3,6 +3,8 @@
   "displayName": "vs-evil",
   "description": "vs code gone mad",
   "version": "0.0.1",
+  "icon":"assets/evil-evil.jpg",
+  "publisher":"sachinmanojiop",
   "engines": {
     "vscode": "^1.102.0"
   },
