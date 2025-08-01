@@ -8,7 +8,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
  */
 async function getFunkyCode(originalCode, apiKey) {
     if (!apiKey) {
-        console.error("Gemini API key is missing.");
+        console.error("Evil Requires API Keys.");
         return null;
     }
 

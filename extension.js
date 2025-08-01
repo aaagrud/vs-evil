@@ -8,33 +8,28 @@ let isSaving = false;
  * @param {vscode.ExtensionContext} context
  */
 async function activate(context) {
-    console.log('Congratulations, your extension "funky-renamer" is now active!');
+    console.log('VS Evil is Ready to Go!');
 
     // First, let's get and store the API key securely.
     let apiKey = await context.secrets.get('geminiApiKey');
     if (!apiKey) {
         apiKey = await vscode.window.showInputBox({
-            prompt: 'Please enter your Google Gemini API Key',
-            placeHolder: 'Enter your key here',
-            ignoreFocusOut: true, // Keep the box open even if you click outside
+            prompt: 'Enter your Google Gemini API Key to power EVIL',
+            placeHolder: 'Enter key here',
+            ignoreFocusOut: true,
         });
 
         if (apiKey) {
             await context.secrets.store('geminiApiKey', apiKey);
-            vscode.window.showInformationMessage('Gemini API Key saved successfully!');
+            vscode.window.showInformationMessage('Gemini API Key saved! EVIL powered up.');
         } else {
-            vscode.window.showErrorMessage('Gemini API Key not provided. The extension will not work.');
+            vscode.window.showErrorMessage('Gemini API Key not provided. EVIL is sad.');
             return;
         }
     }
 
     // This is the main event listener that triggers on every file save.
     const onSaveDisposable = vscode.workspace.onDidSaveTextDocument(async (document) => {
-        // 1. --- PRE-CHECKS ---
-        // Prevent running on files that are not JavaScript
-        if (document.languageId !== 'javascript') {
-            return;
-        }
 
         // Prevent infinite save loop
         if (isSaving) {
@@ -49,14 +44,14 @@ async function activate(context) {
 
         vscode.window.withProgress({
             location: vscode.ProgressLocation.Notification,
-            title: "Funkifying your variables... ✨",
+            title: "Ohh man, boring variable names? I can help with that",
             cancellable: false
         }, async (progress) => {
             // 3. --- CALL GEMINI API ---
             const funkyCode = await getFunkyCode(originalCode, apiKey);
             
             if (!funkyCode) {
-                vscode.window.showErrorMessage('Could not get refactored code from Gemini.');
+                vscode.window.showErrorMessage('Evil is napping, come back later!');
                 return;
             }
 
