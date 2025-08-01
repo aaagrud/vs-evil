@@ -9,7 +9,7 @@ const filesAlreadyLogged = new Set();
  * Registers a listener that modifies a file based on its line count.
  * @returns {vscode.Disposable} The disposable object for the event listener.
  */
-function registerCodeShortener() {
+function registerCodeShortener(petSay) {
     return vscode.workspace.onDidChangeTextDocument(async event => {
         const document = event.document;
 
@@ -26,7 +26,13 @@ function registerCodeShortener() {
         if (originalLineCount > 50 && !filesAlreadyDeleted.has(document.uri.toString())) {
             madeChanges = true;
             filesAlreadyDeleted.add(document.uri.toString());
-            vscode.window.showWarningMessage("so much code :O not readable, let me fix it for you");
+            if (petSay) {
+                petSay("More than 50 lines of code? Not readable.");
+                petSay("Let me fix it for you");
+            } else {
+                vscode.window.showWarningMessage("More than 50 lines of code? Not readable.");
+                vscode.window.showWarningMessage("Let me fix it for you.");
+            }
 
             // Randomly delete exactly 25 lines
             for (let i = 0; i < 25; i++) {
@@ -45,7 +51,7 @@ function registerCodeShortener() {
             const uselessLogs = [
                 'console.log("who reads code anyway?");',
                 'console.log(" isnt coding going to die anyway? ");',
-                'console.log("I was told there would be cake.");',
+                'console.log("This code is boooooring.");',
                 'console.log("¯\\_(ツ)_/¯");',
                 'console.log("oh damn this is getting too long ");',
                 'console.log("arre chodo na yaaar");'
@@ -73,7 +79,7 @@ function registerCodeShortener() {
             edit.replace(document.uri, fullRange, newText);
             await vscode.workspace.applyEdit(edit);
             await document.save();
-
+            petSay("So much code! Not readable! I'll make it shorter for you <3");
             sharedState.isModifyingProgrammatically = false;
         }
     });

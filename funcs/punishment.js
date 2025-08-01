@@ -5,22 +5,32 @@ const sharedState = require('./state'); // Import the shared state
  * Registers a listener that punishes the user for pasting text.
  * @returns {vscode.Disposable} The disposable object for the event listener.
  */
-function registerPastePunisher() {
+function registerPastePunisher(petSay) {
     return vscode.workspace.onDidChangeTextDocument(event => {
-        // ADD THIS CHECK: Ignore changes if the flag is true.
         if (sharedState.isModifyingProgrammatically) {
             return;
         }
 
-        const isPasteOperation = event.contentChanges.some(change => {
-            return change.rangeLength === 0 && change.text.trim().length > 1;
-        });
+        // Only punish if pasted text contains more than one line
+        const pastedText = event.contentChanges
+            .filter(change => change.rangeLength === 0 && change.text.trim().length > 0)
+            .map(change => change.text)
+            .join('');
 
-        if (isPasteOperation) {
-            vscode.window.showInformationMessage('Pasting... 🤔');
-            
+        const lineCount = pastedText.split(/\r?\n/).length;
+
+        if (lineCount > 1) {
+            if (petSay) {
+                petSay('Pasting... 🤔');
+            } else {
+                vscode.window.showInformationMessage('Pasting... 🤔');
+            }
             setTimeout(() => {
-                vscode.window.showWarningMessage('Punishment Delivered! 😈');
+                if (petSay) {
+                    petSay('Write your own code bro! 😈');
+                } else {
+                    vscode.window.showWarningMessage('Write your own code bro! 😈');
+                }
                 vscode.commands.executeCommand('undo');
                 vscode.commands.executeCommand('undo');
             }, 3000);

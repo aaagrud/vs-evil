@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VS Evil Pet</title>
+  <style>
+    body {
+      background: #1e1e1e;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .pet-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      display: flex;
+      align-items: flex-end;
+    }
+    .speech-bubble {
+      background: #222;
+      color: #fff;
+      border-radius: 16px;
+      padding: 12px 18px;
+      margin-right: 12px;
+      font-size: 1.1em;
+      min-width: 120px;
+      max-width: 320px;
+      box-shadow: 0 2px 8px #0008;
+      position: relative;
+      transition: opacity 0.3s;
+      opacity: 1;
+    }
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      left: 100%;
+      top: 70%;
+      width: 0;
+      height: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-left: 16px solid #222;
+    }
+    .pet-emoji {
+      font-size: 3.5em;
+      filter: drop-shadow(0 2px 6px #000a);
+      user-select: none;
+      transition: transform 0.2s;
+    }
+    .pet-emoji:hover {
+      transform: scale(1.1) rotate(-8deg);
+    }
+  </style>
+</head>
+<body>
+  <div class="pet-container">
+    <div class="speech-bubble" id="speech">😈 Ready to make your coding experience a living hell!</div>
+    <div class="pet-emoji" title="Evil Pet">😈</div>
+  </div>
+  <script>
+    const vscode = acquireVsCodeApi();
+    window.addEventListener('message', event => {
+      const { text } = event.data;
+      const speech = document.getElementById('speech');
+      if (text) {
+        speech.textContent = text;
+        speech.style.opacity = 1;
+        // Hide after 5s
+        clearTimeout(window.speechTimeout);
+        window.speechTimeout = setTimeout(() => {
+          speech.style.opacity = 0.3;
+        }, 5000);
+      }
+    });
+  </script>
+</body>
+</html>
