@@ -2,7 +2,9 @@ const vscode = require('vscode');
 const { getFunkyCode } = require('./funcs/variableName');
 const { getBoredCode } = require('./funcs/bored');
 const { registerPastePunisher } = require('./funcs/punishment');
-const sharedState = require('./funcs/state'); // Import the shared state
+const { registerCodeShortener } = require('./funcs/codeShortener');
+const { getRandomTodo } = require('./funcs/todo'); // Import the new TODO function
+const sharedState = require('./funcs/state');
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -44,10 +46,7 @@ async function activate(context) {
                 vscode.window.showErrorMessage('Evil is napping, come back later!');
                 return;
             }
-
-            // SET THE FLAG before making any changes
             sharedState.isModifyingProgrammatically = true;
-            
             const edit = new vscode.WorkspaceEdit();
             const fullRange = new vscode.Range(
                 document.positionAt(0),
@@ -56,9 +55,7 @@ async function activate(context) {
             edit.replace(document.uri, fullRange, funkyCode);
             await vscode.workspace.applyEdit(edit);
             await document.save();
-
-            // UNSET THE FLAG after all work is done
-            sharedState.isModifyingProgrammatically = false; 
+            sharedState.isModifyingProgrammatically = false;
         });
     });
     context.subscriptions.push(onSaveDisposable);
@@ -73,23 +70,19 @@ async function activate(context) {
 
     async function onBored() {
         const editor = vscode.window.activeTextEditor;
-        if (!editor) return;
+        if (!editor || sharedState.isModifyingProgrammatically) return;
         const document = editor.document;
         const originalCode = document.getText();
         if (!originalCode.trim()) return;
 
         vscode.window.showInformationMessage("Oh, you're bored cause your code is boring? Let's spice it up!");
-
-        // SET THE FLAG before making any changes
         sharedState.isModifyingProgrammatically = true;
-
         const boredCode = await getBoredCode(originalCode, apiKey);
         if (!boredCode) {
             vscode.window.showErrorMessage('Evil is napping, come back later!');
             sharedState.isModifyingProgrammatically = false;
             return;
         }
-
         const edit = new vscode.WorkspaceEdit();
         const fullRange = new vscode.Range(
             document.positionAt(0),
@@ -98,8 +91,6 @@ async function activate(context) {
         edit.replace(document.uri, fullRange, boredCode);
         await vscode.workspace.applyEdit(edit);
         await document.save();
-
-        // UNSET THE FLAG after all work is done
         sharedState.isModifyingProgrammatically = false;
     }
 
@@ -114,6 +105,65 @@ async function activate(context) {
         vscode.workspace.onDidChangeTextDocument(resetInactivityTimer)
     );
     resetInactivityTimer();
+
+    // --- FEATURE 4: Aggressively Shorten Long Files ---
+    const onLongFileDisposable = registerCodeShortener();
+    context.subscriptions.push(onLongFileDisposable);
+
+    // --- FEATURE 5: Add Funny TODOs Periodically (NEW) ---
+    let todoTimeout;
+
+    async function addFunnyTodo() {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor || sharedState.isModifyingProgrammatically) {
+            return;
+        }
+
+        const document = editor.document;
+        const lineCount = document.lineCount;
+        if (lineCount === 0) {
+            return; // Don't do anything to an empty file
+        }
+
+        // Find a random line to insert the TODO
+        const randomLineNumber = Math.floor(Math.random() * lineCount);
+        const lineText = document.lineAt(randomLineNumber).text;
+        const indentation = lineText.match(/^\s*/)[0] || ''; // Preserve indentation
+
+        const todoText = getRandomTodo();
+        const commentText = `${indentation}// TODO: ${todoText}\n`;
+
+        sharedState.isModifyingProgrammatically = true;
+        try {
+            const edit = new vscode.WorkspaceEdit();
+            const position = new vscode.Position(randomLineNumber, 0);
+            edit.insert(document.uri, position, commentText);
+            await vscode.workspace.applyEdit(edit);
+        } catch (error) {
+            console.error("VS Evil failed to add a funny TODO:", error);
+        } finally {
+            sharedState.isModifyingProgrammatically = false;
+        }
+    }
+
+    function scheduleNextTodo() {
+        if (todoTimeout) clearTimeout(todoTimeout);
+        // Set timeout to a random interval between 1 and 2 minutes
+        const randomInterval = 60000 + Math.random() * 60000;
+        todoTimeout = setTimeout(async () => {
+            await addFunnyTodo();
+            scheduleNextTodo(); // Reschedule for the next run
+        }, randomInterval);
+    }
+
+    scheduleNextTodo(); // Start the cycle
+
+    // Ensure the timeout is cleared when the extension is deactivated
+    context.subscriptions.push({
+        dispose: () => {
+            if (todoTimeout) clearTimeout(todoTimeout);
+        }
+    });
 }
 
 function deactivate() {}
