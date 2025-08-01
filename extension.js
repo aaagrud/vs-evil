@@ -1,5 +1,6 @@
 const vscode = require('vscode');
 const { getFunkyCode } = require('./funcs/variableName');
+const { getBoredCode } = require('./funcs/bored');
 const { registerPastePunisher } = require('./funcs/punishment');
 const sharedState = require('./funcs/state'); // Import the shared state
 
@@ -65,6 +66,54 @@ async function activate(context) {
     // --- FEATURE 2: Punish User on Paste ---
     const onPasteDisposable = registerPastePunisher();
     context.subscriptions.push(onPasteDisposable);
+
+    // --- FEATURE 3: Boredom Detection & Code Mayhem ---
+    let inactivityTimeout;
+    const INACTIVITY_LIMIT = 12 * 1000; // 12 seconds
+
+    async function onBored() {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) return;
+        const document = editor.document;
+        const originalCode = document.getText();
+        if (!originalCode.trim()) return;
+
+        vscode.window.showInformationMessage("Oh, you're bored cause your code is boring? Let's spice it up!");
+
+        // SET THE FLAG before making any changes
+        sharedState.isModifyingProgrammatically = true;
+
+        const boredCode = await getBoredCode(originalCode, apiKey);
+        if (!boredCode) {
+            vscode.window.showErrorMessage('Evil is napping, come back later!');
+            sharedState.isModifyingProgrammatically = false;
+            return;
+        }
+
+        const edit = new vscode.WorkspaceEdit();
+        const fullRange = new vscode.Range(
+            document.positionAt(0),
+            document.positionAt(originalCode.length)
+        );
+        edit.replace(document.uri, fullRange, boredCode);
+        await vscode.workspace.applyEdit(edit);
+        await document.save();
+
+        // UNSET THE FLAG after all work is done
+        sharedState.isModifyingProgrammatically = false;
+    }
+
+    function resetInactivityTimer() {
+        if (inactivityTimeout) clearTimeout(inactivityTimeout);
+        inactivityTimeout = setTimeout(onBored, INACTIVITY_LIMIT);
+    }
+
+    context.subscriptions.push(
+        vscode.window.onDidChangeTextEditorSelection(resetInactivityTimer),
+        vscode.window.onDidChangeActiveTextEditor(resetInactivityTimer),
+        vscode.workspace.onDidChangeTextDocument(resetInactivityTimer)
+    );
+    resetInactivityTimer();
 }
 
 function deactivate() {}

@@ -6,7 +6,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
  * @param {string} apiKey The Gemini API key.
  * @returns {Promise<string|null>} The refactored code or null if an error occurs.
  */
-async function getFunkyCode(originalCode, apiKey) {
+async function getBoredCode(originalCode, apiKey) {
     if (!apiKey) {
         console.error("Evil Requires API Keys.");
         return null;
@@ -18,12 +18,10 @@ async function getFunkyCode(originalCode, apiKey) {
 
         const prompt = `
             You are an expert code refactoring tool with a sense of humor.
-            Your task is to rewrite the following code by replacing every variable, parameter, and function name with a creative, funky, and humorous alternative.
-            For example, 'const userId = 1;' could become 'const captainOfTheKeyboard = 1;'.
-            - DO NOT change the code's logic, structure, or functionality.
-            - ONLY modify the names.
-            - DO NOT add any explanations, comments, or markdown formatting like \`\`\`javascript.
-            - Return ONLY the raw, modified code.
+            The programmer is bored so to make their code interesting rewrite the following code by making it interesting by:
+            - Flip all boolean values (true <-> false)
+            - Apply the worst possible formatting (e.g., 1 letter per line, random indentation)
+            - Make it look as unreadable as possible, but keep it runnable.
 
             Here is the code:
             ---
@@ -38,7 +36,7 @@ async function getFunkyCode(originalCode, apiKey) {
         return funkyCode.replace(/```javascript/g, '').replace(/```/g, '').trim();
 
     } catch (error) {
-        console.error("Error with API, evil is napping");
+        console.error("Error with API, evil is napping:", error);
         // You could also show an error message to the user in VS Code's window
         // vscode.window.showErrorMessage("Failed to get funky code from Gemini.");
         return null;
@@ -46,5 +44,5 @@ async function getFunkyCode(originalCode, apiKey) {
 }
 
 module.exports = {
-    getFunkyCode
+    getBoredCode
 };
