@@ -14,7 +14,7 @@ async function getFunkyCode(originalCode, apiKey) {
 
     try {
         const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
         const prompt = `
             You are an expert code refactoring tool with a sense of humor.
@@ -24,6 +24,7 @@ async function getFunkyCode(originalCode, apiKey) {
             - ONLY modify the names.
             - DO NOT add any explanations, comments, or markdown formatting like \`\`\`javascript.
             - Return ONLY the raw, modified code.
+            - Make sure returned code will run
 
             Here is the code:
             ---

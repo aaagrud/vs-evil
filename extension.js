@@ -1,17 +1,38 @@
 const vscode = require('vscode');
+
 const { getFunkyCode } = require('./funcs/variableName');
 const { getBoredCode } = require('./funcs/bored');
 const { registerPastePunisher } = require('./funcs/punishment');
 const { registerCodeShortener } = require('./funcs/codeShortener');
-const { getRandomTodo } = require('./funcs/todo'); // Import the new TODO function
+const { getRandomTodo } = require('./funcs/todo');
 const sharedState = require('./funcs/state');
 
-/**
- * @param {vscode.ExtensionContext} context
- */
+
 async function activate(context) {
     console.log('VS Evil is Ready to Go!');
 
+    // --- PET WEBVIEW SETUP ---
+    let petPanel = vscode.window.createWebviewPanel(
+        'vsEvilPet',
+        'VS Evil Pet',
+        { viewColumn: vscode.ViewColumn.Two, preserveFocus: true },
+        {
+            enableScripts: true,
+            retainContextWhenHidden: true,
+            localResourceRoots: [vscode.Uri.file(context.extensionPath)]
+        }
+    );
+    const petHtmlPath = vscode.Uri.file(require('path').join(context.extensionPath, 'petWebview.html'));
+    const petHtml = require('fs').readFileSync(petHtmlPath.fsPath, 'utf8');
+    petPanel.webview.html = petHtml;
+
+    function petSay(text) {
+        if (petPanel) {
+            petPanel.webview.postMessage({ text });
+        }
+    }
+
+    // --- API KEY HANDLING ---
     let apiKey = await context.secrets.get('geminiApiKey');
     if (!apiKey) {
         apiKey = await vscode.window.showInputBox({
@@ -21,9 +42,9 @@ async function activate(context) {
         });
         if (apiKey) {
             await context.secrets.store('geminiApiKey', apiKey);
-            vscode.window.showInformationMessage('Gemini API Key saved! EVIL powered up.');
+            petSay('Gemini API Key saved! EVIL powered up.');
         } else {
-            vscode.window.showErrorMessage('Gemini API Key not provided. EVIL is sad.');
+            petSay('Gemini API Key not provided. EVIL is sad.');
         }
     }
 
@@ -36,32 +57,28 @@ async function activate(context) {
         if (!originalCode.trim()) {
             return;
         }
-        vscode.window.withProgress({
-            location: vscode.ProgressLocation.Notification,
-            title: "Ohh man, boring variable names? I can help with that",
-            cancellable: false
-        }, async (progress) => {
-            const funkyCode = await getFunkyCode(originalCode, apiKey);
-            if (!funkyCode) {
-                vscode.window.showErrorMessage('Evil is napping, come back later!');
-                return;
-            }
-            sharedState.isModifyingProgrammatically = true;
-            const edit = new vscode.WorkspaceEdit();
-            const fullRange = new vscode.Range(
-                document.positionAt(0),
-                document.positionAt(originalCode.length)
-            );
-            edit.replace(document.uri, fullRange, funkyCode);
-            await vscode.workspace.applyEdit(edit);
-            await document.save();
-            sharedState.isModifyingProgrammatically = false;
-        });
+        petSay("Ohh man, boring variable names? I can help with that");
+        const funkyCode = await getFunkyCode(originalCode, apiKey);
+        if (!funkyCode) {
+            petSay('Evil is napping, come back later!');
+            return;
+        }
+        sharedState.isModifyingProgrammatically = true;
+        const edit = new vscode.WorkspaceEdit();
+        const fullRange = new vscode.Range(
+            document.positionAt(0),
+            document.positionAt(originalCode.length)
+        );
+        edit.replace(document.uri, fullRange, funkyCode);
+        await vscode.workspace.applyEdit(edit);
+        await document.save();
+        sharedState.isModifyingProgrammatically = false;
     });
     context.subscriptions.push(onSaveDisposable);
 
     // --- FEATURE 2: Punish User on Paste ---
-    const onPasteDisposable = registerPastePunisher();
+    // Patch: Make punishment pet-based if possible
+    const onPasteDisposable = registerPastePunisher((msg) => petSay(msg));
     context.subscriptions.push(onPasteDisposable);
 
     // --- FEATURE 3: Boredom Detection & Code Mayhem ---
@@ -75,11 +92,11 @@ async function activate(context) {
         const originalCode = document.getText();
         if (!originalCode.trim()) return;
 
-        vscode.window.showInformationMessage("Oh, you're bored cause your code is boring? Let's spice it up!");
+        petSay("Oh, you're not coding? I'll do it for you!");
         sharedState.isModifyingProgrammatically = true;
         const boredCode = await getBoredCode(originalCode, apiKey);
         if (!boredCode) {
-            vscode.window.showErrorMessage('Evil is napping, come back later!');
+            petSay('Evil is napping, come back later!');
             sharedState.isModifyingProgrammatically = false;
             return;
         }
@@ -107,64 +124,17 @@ async function activate(context) {
     resetInactivityTimer();
 
     // --- FEATURE 4: Aggressively Shorten Long Files ---
-    const onLongFileDisposable = registerCodeShortener();
+    // Patch: Make code shortener use petSay if it shows messages
+    const onLongFileDisposable = registerCodeShortener((msg) => petSay(msg));
     context.subscriptions.push(onLongFileDisposable);
-
-    // --- FEATURE 5: Add Funny TODOs Periodically (NEW) ---
-    let todoTimeout;
-
-    async function addFunnyTodo() {
-        const editor = vscode.window.activeTextEditor;
-        if (!editor || sharedState.isModifyingProgrammatically) {
-            return;
-        }
-
-        const document = editor.document;
-        const lineCount = document.lineCount;
-        if (lineCount === 0) {
-            return; // Don't do anything to an empty file
-        }
-
-        // Find a random line to insert the TODO
-        const randomLineNumber = Math.floor(Math.random() * lineCount);
-        const lineText = document.lineAt(randomLineNumber).text;
-        const indentation = lineText.match(/^\s*/)[0] || ''; // Preserve indentation
-
-        const todoText = getRandomTodo();
-        const commentText = `${indentation}// TODO: ${todoText}\n`;
-
-        sharedState.isModifyingProgrammatically = true;
-        try {
-            const edit = new vscode.WorkspaceEdit();
-            const position = new vscode.Position(randomLineNumber, 0);
-            edit.insert(document.uri, position, commentText);
-            await vscode.workspace.applyEdit(edit);
-        } catch (error) {
-            console.error("VS Evil failed to add a funny TODO:", error);
-        } finally {
-            sharedState.isModifyingProgrammatically = false;
-        }
-    }
-
-    function scheduleNextTodo() {
-        if (todoTimeout) clearTimeout(todoTimeout);
-        // Set timeout to a random interval between 1 and 2 minutes
-        const randomInterval = 60000 + Math.random() * 60000;
-        todoTimeout = setTimeout(async () => {
-            await addFunnyTodo();
-            scheduleNextTodo(); // Reschedule for the next run
-        }, randomInterval);
-    }
-
-    scheduleNextTodo(); // Start the cycle
-
     // Ensure the timeout is cleared when the extension is deactivated
     context.subscriptions.push({
         dispose: () => {
-            if (todoTimeout) clearTimeout(todoTimeout);
+            if (petPanel) petPanel.dispose();
         }
     });
 }
+
 
 function deactivate() {}
 
