@@ -2,7 +2,7 @@
 
 The devil on your shoulder, now in your editor.
 
-*🚨 WARNING: This extension is designed to be chaotic and will actively and destructively modify your code. DO NOT use it on important projects. It is a prank extension meant for fun. You have been warned! 🚨*
+*🚨 WARNING: This extension is designed to be chaotic and will actively and destructively modify your code. DO NOT use it on important projects. It is a prank extension meant for fun. 🚨*
 
 ---
 
@@ -12,14 +12,12 @@ Tired of helpful assistants, linters, and formatters that actually improve your 
 
 This extension is powered by the Google Gemini API to intelligently (and maliciously) rewrite your code.
 
-![A screenshot of the evil pet in the webview would go here]
-
 ---
 
 ## 💥 Features
 
 * *Funkify Variables on Save: Say goodbye to boring variable names like i, data, or temp. On every save, VS Evil renames your variables to something... more *creative.
-    >  पेट: "Ohh man, boring variable names? I can help with that"
+    >  Pet: "Ohh man, boring variable names? I can help with that"
 
 * *Inactivity Mayhem*: Take a break for more than 12 seconds? VS Evil gets bored and decides to "refactor" your code for you. What could go wrong?
     > Pet: "Oh, you're not coding? I'll do it for you!"
@@ -45,7 +43,7 @@ This extension is powered by the Google Gemini API to intelligently (and malicio
 
 ## ⚠️ Disclaimer
 
-Seriously, *do not use this on anything important. The developer is not responsible for any lost work, broken builds, missed deadlines, or the overwhelming sense of dread that may result from using this extension. **Use at your own risk.*
+Seriously, do not use this on anything important. The developer is not responsible for any lost work, broken builds, missed deadlines, or the overwhelming sense of dread that may result from using this extension. *Use at your own risk.*
 
 ---
 
