@@ -19,7 +19,7 @@ This extension is powered by the Google Gemini API to intelligently (and malicio
 ## 💥 Features
 
 * *Funkify Variables on Save: Say goodbye to boring variable names like i, data, or temp. On every save, VS Evil renames your variables to something... more *creative.
-    >  पेट: "Ohh man, boring variable names? I can help with that"
+    >  pet: "Ohh man, boring variable names? I can help with that"
 
 * *Inactivity Mayhem*: Take a break for more than 12 seconds? VS Evil gets bored and decides to "refactor" your code for you. What could go wrong?
     > Pet: "Oh, you're not coding? I'll do it for you!"

@@ -11,7 +11,7 @@ const sharedState = require('./funcs/state');
 async function activate(context) {
     console.log('VS Evil is Ready to Go!');
 
-    // --- PET WEBVIEW SETUP ---
+   
     let petPanel = vscode.window.createWebviewPanel(
         'vsEvilPet',
         'VS Evil Pet',
@@ -32,7 +32,6 @@ async function activate(context) {
         }
     }
 
-    // --- API KEY HANDLING ---
     let apiKey = await context.secrets.get('geminiApiKey');
     if (!apiKey) {
         apiKey = await vscode.window.showInputBox({
